@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HackGov · Agendamento em Unidades de Saúde</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="shell">
+
+    <aside class="sidebar">
+      <div class="wordmark">
+        <span class="wordmark-main">HackGov</span>
+        <span class="wordmark-sub">Saúde</span>
+      </div>
+
+      <nav class="nav" id="nav">
+        <button class="nav-item is-active" data-view="cadastro">
+          <span class="nav-index">01</span> Meu cadastro
+        </button>
+        <button class="nav-item" data-view="agendar">
+          <span class="nav-index">02</span> Agendar consulta
+        </button>
+        <button class="nav-item" data-view="agendamentos">
+          <span class="nav-index">03</span> Meus agendamentos
+        </button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <p>Protótipo — Fase 1</p>
+        <p>Projeto HackGov · FIAP</p>
+      </div>
+    </aside>
+
+    <main class="content">
+
+      <!-- ===================== CADASTRO (US01) ===================== -->
+      <section class="view is-active" id="view-cadastro">
+        <header class="view-head">
+          <h1>Meu cadastro</h1>
+          <p>Cadastre seus dados uma única vez para agendar consultas e exames pela rede pública de saúde.</p>
+        </header>
+
+        <form class="panel" id="form-cadastro">
+          <div class="field">
+            <label for="c-nome">Nome completo</label>
+            <input id="c-nome" type="text" required placeholder="Como está no seu documento oficial">
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="c-cpf">CPF</label>
+              <input id="c-cpf" type="text" required placeholder="000.000.000-00" maxlength="14">
+            </div>
+            <div class="field">
+              <label for="c-sus">Cartão SUS</label>
+              <input id="c-sus" type="text" required placeholder="000 0000 0000 0000" maxlength="18">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="c-nasc">Data de nascimento</label>
+            <input id="c-nasc" type="date" required>
+          </div>
+
+          <button type="submit" class="btn-primary">Salvar cadastro</button>
+          <p class="form-note" id="cadastro-status"></p>
+        </form>
+      </section>
+
+      <!-- ===================== AGENDAR (US02) ===================== -->
+      <section class="view" id="view-agendar">
+        <header class="view-head">
+          <h1>Agendar consulta ou exame</h1>
+          <p>Escolha a unidade, a especialidade e um horário disponível.</p>
+        </header>
+
+        <div class="panel" id="agendar-gate-msg" hidden>
+          <p>Você precisa concluir seu cadastro antes de agendar.</p>
+          <button class="btn-secondary" data-goto="cadastro">Ir para o cadastro</button>
+        </div>
+
+        <form class="panel" id="form-agendar">
+          <div class="field">
+            <label for="a-unidade">Unidade de saúde</label>
+            <select id="a-unidade" required></select>
+          </div>
+
+          <div class="field">
+            <label for="a-especialidade">Especialidade</label>
+            <select id="a-especialidade" required></select>
+          </div>
+
+          <div class="field">
+            <label for="a-data">Data</label>
+            <input id="a-data" type="date" required>
+          </div>
+
+          <div class="field">
+            <label>Horário</label>
+            <div class="chip-row" id="a-horarios"></div>
+          </div>
+
+          <div class="field">
+            <label for="a-canal">Como prefere receber o lembrete?</label>
+            <select id="a-canal">
+              <option value="app">Notificação no app</option>
+              <option value="sms">SMS</option>
+              <option value="email">E-mail</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn-primary" id="a-submit">Confirmar agendamento</button>
+          <p class="form-note" id="agendar-status"></p>
+        </form>
+      </section>
+
+      <!-- ===================== MEUS AGENDAMENTOS (US03, US04, US05) ===================== -->
+      <section class="view" id="view-agendamentos">
+        <header class="view-head">
+          <h1>Meus agendamentos</h1>
+          <p>Acompanhe o status de cada solicitação pelo número de protocolo.</p>
+        </header>
+
+        <div class="panel empty-state" id="agendamentos-empty">
+          <p>Você ainda não tem agendamentos.</p>
+          <button class="btn-secondary" data-goto="agendar">Agendar agora</button>
+        </div>
+
+        <ul class="appointment-list" id="appointment-list"></ul>
+
+        <header class="view-head view-head-tight">
+          <h2>Lembretes enviados</h2>
+        </header>
+        <ul class="notification-list" id="notification-list"></ul>
+      </section>
+
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
